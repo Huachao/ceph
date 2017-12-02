@@ -166,8 +166,13 @@ def get_nodes_using_role(ctx, target_role):
                 modified_remotes[_remote].append(svc_id)
 
     ctx.cluster.remotes = modified_remotes
-    ctx.cluster.mapped_role = ceph_deploy_mapped
-
+    # since the function is called multiple times for target roles
+    # append new mapped roles
+    if not hasattr(ctx.cluster, 'mapped_role'):
+        ctx.cluster.mapped_role = ceph_deploy_mapped
+    else:
+        ctx.cluster.mapped_role.update(ceph_deploy_mapped)
+    log.info("New mapped_role={mr}".format(mr=ctx.cluster.mapped_role))
     return nodes_of_interest
 
 
