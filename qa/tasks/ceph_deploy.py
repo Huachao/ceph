@@ -727,6 +727,7 @@ def upgrade(ctx, config):
     # get the roles that are mapped as per ceph-deploy
     # roles are mapped for mon/mds eg: mon.a  => mon.host_short_name
     mapped_role = ctx.cluster.mapped_role
+    log.info("roles={r}, mapped_roles={mr}".format(r=roles, mr=mapped_role))
     if config.get('branch'):
         branch = config.get('branch')
         (var, val) = branch.items()[0]
